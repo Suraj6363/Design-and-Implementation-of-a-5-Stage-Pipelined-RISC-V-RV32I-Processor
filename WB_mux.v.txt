@@ -1,0 +1,35 @@
+module wb_mux(
+    input  [2:0]  result_src_in,
+
+    input  [31:0] alu_result_in,
+    input  [31:0] load_data_in,
+    input  [31:0] pc_plus4_in,
+    input  [31:0] imm_data_in,
+
+    output reg [31:0] wb_data_out
+);
+
+always @(*) begin
+
+    case(result_src_in)
+
+        3'b000:
+            wb_data_out = alu_result_in;
+
+        3'b001:
+            wb_data_out = load_data_in;
+
+        3'b010:
+            wb_data_out = pc_plus4_in;
+
+        3'b011:
+            wb_data_out = imm_data_in;
+
+        default:
+            wb_data_out = 32'b0;
+
+    endcase
+
+end
+
+endmodule

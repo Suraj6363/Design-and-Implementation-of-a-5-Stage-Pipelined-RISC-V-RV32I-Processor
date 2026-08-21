@@ -1,0 +1,84 @@
+module EX_Register(
+
+    input         clk,
+    input         rst,
+
+    // Control Signals
+
+    input         RegWrite_E,
+    input  [2:0]  ResultSrc_E,
+    input         DMWrEn_E,
+    input  [1:0]  LoadSize_E,
+    input         LoadUnsigned_E,
+    input  [2:0]  Func3_E,
+
+    // Datapath Signals
+
+    input  [31:0] ALUResult_E,
+    input  [31:0] WriteData_E,
+    input  [31:0] ImmExt_E,
+    input  [31:0] PCPlus4_E,
+
+    input  [4:0]  RD_E,
+
+    // Control Outputs
+
+    output reg        RegWrite_M,
+    output reg [2:0]  ResultSrc_M,
+    output reg        DMWrEn_M,
+    output reg [1:0]  LoadSize_M,
+    output reg        LoadUnsigned_M,
+    output reg [2:0]  Func3_M,
+
+    // Datapath Outputs
+
+    output reg [31:0] ALUResult_M,
+    output reg [31:0] WriteData_M,
+    output reg [31:0] ImmExt_M,
+    output reg [31:0] PCPlus4_M,
+
+    output reg [4:0]  RD_M
+
+);
+
+always @(posedge clk) begin
+
+    if(rst) begin
+
+        RegWrite_M      <= 1'b0;
+        ResultSrc_M     <= 3'b000;
+        DMWrEn_M        <= 1'b0;
+        LoadSize_M      <= 2'b00;
+        LoadUnsigned_M  <= 1'b0;
+        Func3_M         <= 3'b000;
+
+        ALUResult_M     <= 32'd0;
+        WriteData_M     <= 32'd0;
+        ImmExt_M        <= 32'd0;
+        PCPlus4_M       <= 32'd0;
+
+        RD_M            <= 5'd0;
+
+    end
+
+    else begin
+
+        RegWrite_M      <= RegWrite_E;
+        ResultSrc_M     <= ResultSrc_E;
+        DMWrEn_M        <= DMWrEn_E;
+        LoadSize_M      <= LoadSize_E;
+        LoadUnsigned_M  <= LoadUnsigned_E;
+        Func3_M         <= Func3_E;
+
+        ALUResult_M     <= ALUResult_E;
+        WriteData_M     <= WriteData_E;
+        ImmExt_M        <= ImmExt_E;
+        PCPlus4_M       <= PCPlus4_E;
+
+        RD_M            <= RD_E;
+
+    end
+
+end
+
+endmodule

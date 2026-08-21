@@ -1,0 +1,11 @@
+module imm_adder(input             ladder_src_in,
+                 input      [31:0] PC_in,
+                 input      [31:0] src_Data1_in,
+                 input      [31:0] imm_data_in,
+                 output reg [31:0] Added_data_out
+                );
+  always @ (*)
+    begin
+      Added_data_out = (ladder_src_in)? src_Data1_in + imm_data_in : PC_in + imm_data_in;
+    end 
+endmodule

@@ -1,0 +1,30 @@
+module store_unit(
+  input             DM_WrEN_in,
+  input      [1:0]  Func3_in,
+  input      [31:0] Added_Data_in,
+  input      [31:0] Src_Data2_in,
+  output reg [31:0] DM_Addr_OUT,
+  output reg [31:0] DM_WrData_OUT,
+  output reg [3:0]  DM_WrMask_out,
+  output reg          DM_WrEn_out
+);
+  
+  always @ (*)begin
+    DM_Addr_OUT   = Added_Data_in;
+    DM_WrData_OUT = Src_Data2_in;
+    DM_WrEn_out = DM_WrEN_in;
+   
+   
+    if(DM_WrEN_in && Func3_in == 2'b00 )
+     DM_WrMask_out = 4'b0001;
+    else if (DM_WrEN_in && Func3_in == 2'b01 )
+        DM_WrMask_out = 4'b0011;
+    else if
+      (DM_WrEN_in && Func3_in == 2'b10 )
+        DM_WrMask_out = 4'b1111;
+    else
+       DM_WrMask_out = 4'b0000;
+  end
+endmodule
+    
+    

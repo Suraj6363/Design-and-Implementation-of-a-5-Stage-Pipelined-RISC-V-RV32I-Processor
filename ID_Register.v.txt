@@ -1,0 +1,161 @@
+module ID_Register(
+
+    input         clk,
+    input         rst,
+    input         Flush_E,
+
+    //Control Signals
+
+    input         RegWrite_D,
+    input  [2:0]  ResultSrc_D,
+    input         LadderSrc_D,
+    input         ALUSrc_D,
+    input  [3:0]  ALUControl_D,
+    input         DMWrEn_D,
+    input  [1:0]  LoadSize_D,
+    input         LoadUnsigned_D,
+    input  [7:0]  BranchCond_D,
+    input  [2:0]  Func3_D,
+
+    //Datapath Signals
+
+    input  [31:0] RD1_D,
+    input  [31:0] RD2_D,
+    input  [31:0] ImmExt_D,
+    input  [31:0] PC_D,
+    input  [31:0] PCPlus4_D,
+
+    input  [4:0]  RS1_D,
+    input  [4:0]  RS2_D,
+    input  [4:0]  RD_D,
+
+    //Control Outputs
+
+    output reg        RegWrite_E,
+    output reg [2:0]  ResultSrc_E,
+    output reg        LadderSrc_E,
+    output reg        ALUSrc_E,
+    output reg [3:0]  ALUControl_E,
+    output reg        DMWrEn_E,
+    output reg [1:0]  LoadSize_E,
+    output reg        LoadUnsigned_E,
+    output reg [7:0]  BranchCond_E,
+    output reg [2:0]  Func3_E,
+
+    //Datapath Outputs
+
+    output reg [31:0] RD1_E,
+    output reg [31:0] RD2_E,
+    output reg [31:0] ImmExt_E,
+    output reg [31:0] PC_E,
+    output reg [31:0] PCPlus4_E,
+
+    output reg [4:0]  RS1_E,
+    output reg [4:0]  RS2_E,
+    output reg [4:0]  RD_E
+
+);
+
+always @(posedge clk) begin
+
+    if(rst) begin
+
+        // Control Signals
+
+        RegWrite_E      <= 1'b0;
+        ResultSrc_E     <= 3'b000;
+        LadderSrc_E     <= 1'b0;
+        ALUSrc_E        <= 1'b0;
+        ALUControl_E    <= 4'b0000;
+        DMWrEn_E        <= 1'b0;
+        LoadSize_E      <= 2'b00;
+        LoadUnsigned_E  <= 1'b0;
+        BranchCond_E    <= 8'b00000000;
+        Func3_E         <= 3'b000;
+
+        // Datapath Signals
+
+        RD1_E           <= 32'd0;
+        RD2_E           <= 32'd0;
+        ImmExt_E        <= 32'd0;
+        PC_E            <= 32'd0;
+        PCPlus4_E       <= 32'd0;
+
+        RS1_E           <= 5'd0;
+        RS2_E           <= 5'd0;
+        RD_E            <= 5'd0;
+
+    end
+
+    else if(Flush_E) begin
+
+        // Insert Bubble (NOP)
+
+        // Control Signals
+
+        RegWrite_E      <= 1'b0;
+        ResultSrc_E     <= 3'b000;
+        LadderSrc_E     <= 1'b0;
+        ALUSrc_E        <= 1'b0;
+        ALUControl_E    <= 4'b0000;
+        DMWrEn_E        <= 1'b0;
+        LoadSize_E      <= 2'b00;
+        LoadUnsigned_E  <= 1'b0;
+        BranchCond_E    <= 8'b00000000;
+        Func3_E         <= 3'b000;
+
+        // Datapath Signals
+
+        RD1_E           <= 32'd0;
+        RD2_E           <= 32'd0;
+        ImmExt_E        <= 32'd0;
+        PC_E            <= 32'd0;
+        PCPlus4_E       <= 32'd0;
+
+        RS1_E           <= 5'd0;
+        RS2_E           <= 5'd0;
+        RD_E            <= 5'd0;
+
+    end
+
+    else begin
+
+        // Control Signals
+
+        RegWrite_E      <= RegWrite_D;
+        ResultSrc_E     <= ResultSrc_D;
+        LadderSrc_E     <= LadderSrc_D;
+        ALUSrc_E        <= ALUSrc_D;
+        ALUControl_E    <= ALUControl_D;
+        DMWrEn_E        <= DMWrEn_D;
+        LoadSize_E      <= LoadSize_D;
+        LoadUnsigned_E  <= LoadUnsigned_D;
+        BranchCond_E    <= BranchCond_D;
+        Func3_E         <= Func3_D;
+
+        // Datapath Signals
+
+        RD1_E           <= RD1_D;
+        RD2_E           <= RD2_D;
+        ImmExt_E        <= ImmExt_D;
+        PC_E            <= PC_D;
+        PCPlus4_E       <= PCPlus4_D;
+
+        RS1_E           <= RS1_D;
+        RS2_E           <= RS2_D;
+        RD_E            <= RD_D;
+
+    end
+
+end
+
+endmodule
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+module pc_unit(
+
+    input             clk,
+    input             rst,
+
+    input             Stall_F,
+
+    input             branch_taken,
+    input      [31:0] target_addrs,
+
+    output reg [31:0] pc_out,
+    output reg [31:0] pc_plus4_out
+
+);
+
+always @(posedge clk or posedge rst) begin
+
+    if(rst)
+
+        pc_out <= 32'd0;
+
+    else if(Stall_F)
+
+        pc_out <= pc_out;
+
+    else if(branch_taken)
+
+        pc_out <= target_addrs;
+
+    else
+
+        pc_out <= pc_out + 32'd4;
+
+end
+
+
+always @(*) begin
+
+    pc_plus4_out = pc_out + 32'd4;
+
+end
+
+endmodule

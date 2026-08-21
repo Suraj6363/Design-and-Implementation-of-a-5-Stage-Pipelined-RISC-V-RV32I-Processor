@@ -1,0 +1,120 @@
+module Hazard_Unit(
+
+    // Decode Stage
+
+    input  [4:0] Src_Addr1_D_In,
+    input  [4:0] Src_Addr2_D_In,
+
+    // Execute Stage
+
+    input  [4:0] Des_Addr_E_In,
+    input        Reg_WrEn_E_In,
+    input  [2:0] Result_Src_E_In,
+    input  [4:0] Src_Addr1_E_In,
+    input  [4:0] Src_Addr2_E_In,
+
+    // Memory Stage
+
+    input  [4:0] Des_Addr_M_In,
+    input        Reg_WrEn_M_In,
+
+    // Write Back Stage
+
+    input  [4:0] Des_Addr_W_In,
+    input        Reg_WrEn_W_In,
+
+    // Branch
+
+    input        Branch_Taken_E_In,
+
+    // Pipeline Control
+
+    output reg       Stall_F_Out,
+    output reg       Stall_D_Out,
+    output reg       Flush_D_Out,
+    output reg       Flush_E_Out,
+
+    // Forwarding Control
+
+    output reg [1:0] ForwardA_E_Out,
+    output reg [1:0] ForwardB_E_Out
+
+);
+
+// Internal Signal
+
+wire LW_Stall;
+
+
+// Load Use Hazard Detection
+
+assign LW_Stall =
+        (Result_Src_E_In == 3'b001) &&
+       (
+        ((Src_Addr1_D_In == Des_Addr_E_In) && (Src_Addr1_D_In != 5'd0)) ||
+
+        ((Src_Addr2_D_In == Des_Addr_E_In) && (Src_Addr2_D_In != 5'd0))
+       );
+
+
+// Forwarding Logic
+
+always @(*) begin
+
+    ForwardA_E_Out = 2'b00;
+    ForwardB_E_Out = 2'b00;
+
+
+    // Forward A
+
+    if( Reg_WrEn_M_In &&
+        (Des_Addr_M_In != 5'd0) &&
+        (Des_Addr_M_In == Src_Addr1_E_In) )
+
+        ForwardA_E_Out = 2'b10;
+
+    else if( Reg_WrEn_W_In &&
+             (Des_Addr_W_In != 5'd0) &&
+             (Des_Addr_W_In == Src_Addr1_E_In) )
+
+        ForwardA_E_Out = 2'b01;
+
+
+    // Forward B
+
+    if( Reg_WrEn_M_In &&
+        (Des_Addr_M_In != 5'd0) &&
+        (Des_Addr_M_In == Src_Addr2_E_In) )
+
+        ForwardB_E_Out = 2'b10;
+
+    else if( Reg_WrEn_W_In &&
+             (Des_Addr_W_In != 5'd0) &&
+             (Des_Addr_W_In == Src_Addr2_E_In) )
+
+        ForwardB_E_Out = 2'b01;
+
+end
+
+
+// Stall Logic
+
+always @(*) begin
+
+    Stall_F_Out = LW_Stall;
+    Stall_D_Out = LW_Stall;
+
+end
+
+
+// Flush Logic
+
+always @(*) begin
+
+    Flush_D_Out = Branch_Taken_E_In;
+
+    Flush_E_Out = Branch_Taken_E_In | LW_Stall;
+
+end
+
+endmodule

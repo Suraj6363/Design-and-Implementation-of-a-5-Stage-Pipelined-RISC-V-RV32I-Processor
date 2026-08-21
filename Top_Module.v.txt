@@ -1,0 +1,596 @@
+`include "PC_unit.v"
+`include "IF_Register.v"
+`include "Decoder.v"
+`include "Register_file.v"
+`include "imm_Gen.v"
+`include "ID_Register.v"
+`include "ALU.v"
+`include "Imm_adder.v"
+`include "Branch_unit.v"
+`include "EX_Register.v"
+`include "Store_unit.v"
+`include "Load_unit.v"
+`include "MEM_WB_Register.v"
+`include "WB_mux.v"
+`include "Hazard_Unit.v"
+
+module top_module(
+
+    input         clk_in,
+    input         rst_in,
+
+    input  [31:0] instruction_in,
+    input  [31:0] DM_data_in,
+
+    output [31:0] instr_addr_out,
+
+    output        DM_WrEn_out,
+    output [3:0]  DM_mask_out,
+    output [31:0] DM_addr_out,
+    output [31:0] DM_data_out
+
+);
+
+    //========================================================
+    // IF STAGE
+    //========================================================
+
+    wire [31:0] PC_F;
+    wire [31:0] PCPlus4_F;
+
+    //========================================================
+    // IF / ID REGISTER
+    //========================================================
+
+    wire [31:0] Instruction_D;
+    wire [31:0] PC_D;
+    wire [31:0] PCPlus4_D;
+
+    //========================================================
+    // ID STAGE
+    //========================================================
+
+    wire        RegWrite_D;
+    wire [2:0]  ImmType_D;
+    wire        LadderSrc_D;
+    wire        ALUSrc_D;
+    wire [3:0]  ALUControl_D;
+    wire        DMWrEn_D;
+    wire [7:0]  BranchCond_D;
+    wire        LoadUnsigned_D;
+    wire [1:0]  LoadSize_D;
+    wire [2:0]  ResultSrc_D;
+
+    wire [31:0] RD1_D;
+    wire [31:0] RD2_D;
+    wire [31:0] ImmExt_D;
+
+    wire [4:0] RS1_D;
+    wire [4:0] RS2_D;
+    wire [4:0] RD_D;
+
+    //========================================================
+    // ID / EX REGISTER
+    //========================================================
+
+    wire        RegWrite_E;
+    wire [2:0]  ResultSrc_E;
+    wire        LadderSrc_E;
+    wire        ALUSrc_E;
+    wire [3:0]  ALUControl_E;
+    wire        DMWrEn_E;
+    wire [1:0]  LoadSize_E;
+    wire        LoadUnsigned_E;
+    wire [7:0]  BranchCond_E;
+    wire [2:0]  Func3_E;
+
+    wire [31:0] RD1_E;
+    wire [31:0] RD2_E;
+    wire [31:0] ImmExt_E;
+    wire [31:0] PC_E;
+    wire [31:0] PCPlus4_E;
+
+    wire [4:0] RS1_E;
+    wire [4:0] RS2_E;
+    wire [4:0] RD_E;
+
+    //========================================================
+    // EX STAGE
+    //========================================================
+
+    wire [31:0] ALUIn2_E;
+    wire [31:0] ALUResult_E;
+
+    wire [31:0] BranchTarget_E;
+    wire        BranchTaken_E;
+
+    //========================================================
+    // EX / MEM REGISTER
+    //========================================================
+
+    wire        RegWrite_M;
+    wire [2:0]  ResultSrc_M;
+    wire        DMWrEn_M;
+    wire [1:0]  LoadSize_M;
+    wire        LoadUnsigned_M;
+    wire [2:0]  Func3_M;
+
+    wire [31:0] ALUResult_M;
+    wire [31:0] WriteData_M;
+    wire [31:0] ImmExt_M;
+    wire [31:0] PCPlus4_M;
+
+    wire [4:0] RD_M;
+
+    //========================================================
+    // MEMORY STAGE
+    //========================================================
+
+    wire [31:0] ReadData_M;
+
+    //========================================================
+    // MEM / WB REGISTER
+    //========================================================
+
+    wire        RegWrite_W;
+    wire [2:0]  ResultSrc_W;
+
+    wire [31:0] ReadData_W;
+    wire [31:0] ALUResult_W;
+    wire [31:0] ImmExt_W;
+    wire [31:0] PCPlus4_W;
+
+    wire [4:0] RD_W;
+
+    //========================================================
+    // WRITE BACK STAGE
+    //========================================================
+
+    wire [31:0] WB_Data;
+
+    //========================================================
+    // HAZARD UNIT SIGNALS
+    //========================================================
+
+    wire Stall_F;
+    wire Stall_D;
+    wire Flush_D;
+    wire Flush_E;
+
+    wire [1:0] ForwardA_E;
+    wire [1:0] ForwardB_E;
+
+    wire [31:0] ForwardSrcA_E;
+    wire [31:0] ForwardSrcB_E;
+
+    //========================================================
+    // Instruction Fields
+    //========================================================
+
+    assign RS1_D = Instruction_D[19:15];
+    assign RS2_D = Instruction_D[24:20];
+    assign RD_D  = Instruction_D[11:7];
+
+    //========================================================
+    // ALU Operand Select
+    //========================================================
+
+    assign ALUIn2_E =
+            (ALUSrc_E) ?
+            ImmExt_E :
+            ForwardSrcB_E;
+
+    //========================================================
+    // Instruction Address
+    //========================================================
+
+    assign instr_addr_out = PC_F;
+
+    //========================================================
+    // PROGRAM COUNTER
+    //========================================================
+
+    pc_unit PC_UNIT(
+
+        .clk(clk_in),
+        .rst(rst_in),
+
+        .Stall_F(Stall_F),
+
+        .branch_taken(BranchTaken_E),
+        .target_addrs(BranchTarget_E),
+
+        .pc_out(PC_F),
+        .pc_plus4_out(PCPlus4_F)
+
+    );
+
+    //========================================================
+    // IF / ID REGISTER
+    //========================================================
+
+    if_register IF_REGISTER(
+
+        .clk(clk_in),
+        .rst(rst_in),
+
+        .Stall_D(Stall_D),
+        .Flush_D(Flush_D),
+
+        .instruction_F(instruction_in),
+
+        .PC_F(PC_F),
+        .PC_plus4_F(PCPlus4_F),
+
+        .Instruction_D(Instruction_D),
+        .PC_D(PC_D),
+        .PCPlus4_D(PCPlus4_D)
+
+    );
+
+    //========================================================
+    // DECODER
+    //========================================================
+
+    Decoder DECODER(
+
+        .opcode_in(Instruction_D[6:0]),
+        .Func3_in(Instruction_D[14:12]),
+        .Func7_in(Instruction_D[31:25]),
+
+        .Reg_wr_en_out(RegWrite_D),
+        .imm_type_out(ImmType_D),
+        .ladder_src_out(LadderSrc_D),
+        .ALU_src_out(ALUSrc_D),
+        .ALU_control_out(ALUControl_D),
+        .DM_wr_en(DMWrEn_D),
+        .Branch_cond_out(BranchCond_D),
+        .Load_unsigned_out(LoadUnsigned_D),
+        .Load_size_out(LoadSize_D),
+        .Result_src_out(ResultSrc_D)
+
+    );
+
+    //========================================================
+    // REGISTER FILE
+    //========================================================
+
+    register_file REGISTER_FILE(
+
+        .clk(clk_in),
+        .rst(rst_in),
+
+        .wr_en(RegWrite_W),
+
+        .des_addr_in(RD_W),
+        .des_data_in(WB_Data),
+
+        .src_addr1_in(RS1_D),
+        .src_addr2_in(RS2_D),
+
+        .src_data1_out(RD1_D),
+        .src_data2_out(RD2_D)
+
+    );
+
+    //========================================================
+    // IMMEDIATE GENERATOR
+    //========================================================
+
+    imm_gen IMM_GEN(
+
+        .instr_in(Instruction_D),
+        .imm_type(ImmType_D),
+
+        .imm_out(ImmExt_D)
+
+    );
+    //========================================================
+    // ID / EX PIPELINE REGISTER
+    //========================================================
+
+    ID_Register ID_REGISTER(
+
+        .clk(clk_in),
+        .rst(rst_in),
+        .Flush_E(Flush_E),
+
+        //---------------- Control ----------------
+
+        .RegWrite_D(RegWrite_D),
+        .ResultSrc_D(ResultSrc_D),
+        .LadderSrc_D(LadderSrc_D),
+        .ALUSrc_D(ALUSrc_D),
+        .ALUControl_D(ALUControl_D),
+        .DMWrEn_D(DMWrEn_D),
+        .LoadSize_D(LoadSize_D),
+        .LoadUnsigned_D(LoadUnsigned_D),
+        .BranchCond_D(BranchCond_D),
+
+        .Func3_D(Instruction_D[14:12]),
+
+        //---------------- Datapath ----------------
+
+        .RD1_D(RD1_D),
+        .RD2_D(RD2_D),
+        .ImmExt_D(ImmExt_D),
+
+        .PC_D(PC_D),
+        .PCPlus4_D(PCPlus4_D),
+
+        .RS1_D(RS1_D),
+        .RS2_D(RS2_D),
+        .RD_D(RD_D),
+
+        //---------------- Outputs ----------------
+
+        .RegWrite_E(RegWrite_E),
+        .ResultSrc_E(ResultSrc_E),
+        .LadderSrc_E(LadderSrc_E),
+        .ALUSrc_E(ALUSrc_E),
+        .ALUControl_E(ALUControl_E),
+        .DMWrEn_E(DMWrEn_E),
+        .LoadSize_E(LoadSize_E),
+        .LoadUnsigned_E(LoadUnsigned_E),
+        .BranchCond_E(BranchCond_E),
+
+        .Func3_E(Func3_E),
+
+        .RD1_E(RD1_E),
+        .RD2_E(RD2_E),
+        .ImmExt_E(ImmExt_E),
+
+        .PC_E(PC_E),
+        .PCPlus4_E(PCPlus4_E),
+
+        .RS1_E(RS1_E),
+        .RS2_E(RS2_E),
+        .RD_E(RD_E)
+
+    );
+
+    //========================================================
+    // HAZARD UNIT
+    //========================================================
+
+    Hazard_Unit HAZARD_UNIT(
+
+        //---------------- Decode Stage ----------------
+
+        .Src_Addr1_D_In(RS1_D),
+        .Src_Addr2_D_In(RS2_D),
+
+        //---------------- Execute Stage ----------------
+
+        .Des_Addr_E_In(RD_E),
+        .Reg_WrEn_E_In(RegWrite_E),
+        .Result_Src_E_In(ResultSrc_E),
+
+        .Src_Addr1_E_In(RS1_E),
+        .Src_Addr2_E_In(RS2_E),
+
+        //---------------- Memory Stage ----------------
+
+        .Des_Addr_M_In(RD_M),
+        .Reg_WrEn_M_In(RegWrite_M),
+
+        //---------------- Write Back Stage ----------------
+
+        .Des_Addr_W_In(RD_W),
+        .Reg_WrEn_W_In(RegWrite_W),
+
+        //---------------- Branch ----------------
+
+        .Branch_Taken_E_In(BranchTaken_E),
+
+        //---------------- Outputs ----------------
+
+        .Stall_F_Out(Stall_F),
+        .Stall_D_Out(Stall_D),
+        .Flush_D_Out(Flush_D),
+        .Flush_E_Out(Flush_E),
+
+        .ForwardA_E_Out(ForwardA_E),
+        .ForwardB_E_Out(ForwardB_E)
+
+    );
+
+    //========================================================
+    // FORWARDING MUX
+    //========================================================
+
+    assign ForwardSrcA_E =
+            (ForwardA_E == 2'b00) ? RD1_E :
+            (ForwardA_E == 2'b10) ? ALUResult_M :
+            (ForwardA_E == 2'b01) ? WB_Data :
+                                   RD1_E;
+
+    assign ForwardSrcB_E =
+            (ForwardB_E == 2'b00) ? RD2_E :
+            (ForwardB_E == 2'b10) ? ALUResult_M :
+            (ForwardB_E == 2'b01) ? WB_Data :
+                                   RD2_E;
+    //========================================================
+    // ALU
+    //========================================================
+
+    alu ALU(
+
+        .in1(ForwardSrcA_E),
+        .in2(ALUIn2_E),
+
+        .alu_control(ALUControl_E),
+
+        .alu_result(ALUResult_E)
+
+    );
+
+
+    //========================================================
+    // BRANCH TARGET ADDER
+    //========================================================
+
+    imm_adder IMM_ADDER(
+
+        .ladder_src_in(LadderSrc_E),
+
+        .PC_in(PC_E),
+        .src_Data1_in(ForwardSrcA_E),
+
+        .imm_data_in(ImmExt_E),
+
+        .Added_data_out(BranchTarget_E)
+
+    );
+
+
+    //========================================================
+    // BRANCH UNIT
+    //========================================================
+
+    branch_unit BRANCH_UNIT(
+
+        .src_data1_in(ForwardSrcA_E),
+        .src_data2_in(ForwardSrcB_E),
+
+        .branch_cond_in(BranchCond_E),
+
+        .branch_taken_out(BranchTaken_E)
+
+    );
+
+
+    //========================================================
+    // EX / MEM PIPELINE REGISTER
+    //========================================================
+
+    EX_Register EX_REGISTER(
+
+        .clk(clk_in),
+        .rst(rst_in),
+
+        //---------------- Control ----------------
+
+        .RegWrite_E(RegWrite_E),
+        .ResultSrc_E(ResultSrc_E),
+        .DMWrEn_E(DMWrEn_E),
+        .LoadSize_E(LoadSize_E),
+        .LoadUnsigned_E(LoadUnsigned_E),
+        .Func3_E(Func3_E),
+
+        //---------------- Datapath ----------------
+
+        .ALUResult_E(ALUResult_E),
+        .WriteData_E(ForwardSrcB_E),
+        .ImmExt_E(ImmExt_E),
+        .PCPlus4_E(PCPlus4_E),
+
+        .RD_E(RD_E),
+
+        //---------------- Outputs ----------------
+
+        .RegWrite_M(RegWrite_M),
+        .ResultSrc_M(ResultSrc_M),
+        .DMWrEn_M(DMWrEn_M),
+        .LoadSize_M(LoadSize_M),
+        .LoadUnsigned_M(LoadUnsigned_M),
+        .Func3_M(Func3_M),
+
+        .ALUResult_M(ALUResult_M),
+        .WriteData_M(WriteData_M),
+        .ImmExt_M(ImmExt_M),
+        .PCPlus4_M(PCPlus4_M),
+
+        .RD_M(RD_M)
+
+    );
+    //========================================================
+    // STORE UNIT
+    //========================================================
+
+    store_unit STORE_UNIT(
+
+        .DM_WrEN_in(DMWrEn_M),
+        .Func3_in(Func3_M[1:0]),
+
+        .Added_Data_in(ALUResult_M),
+        .Src_Data2_in(WriteData_M),
+
+        .DM_Addr_OUT(DM_addr_out),
+        .DM_WrData_OUT(DM_data_out),
+        .DM_WrMask_out(DM_mask_out),
+        .DM_WrEn_out(DM_WrEn_out)
+
+    );
+
+
+    //========================================================
+    // LOAD UNIT
+    //========================================================
+
+    load_unit LOAD_UNIT(
+
+        .read_data_in(DM_data_in),
+
+        .load_size_in(LoadSize_M),
+        .load_unsigned_in(LoadUnsigned_M),
+
+        .loaded_data_out(ReadData_M)
+
+    );
+
+
+    //========================================================
+    // MEM / WB PIPELINE REGISTER
+    //========================================================
+
+    MEM_WB_Register MEM_WB(
+
+        .clk(clk_in),
+        .rst(rst_in),
+
+        //---------------- Control ----------------
+
+        .RegWrite_M(RegWrite_M),
+        .ResultSrc_M(ResultSrc_M),
+
+        //---------------- Datapath ----------------
+
+        .ReadData_M(ReadData_M),
+        .ALUResult_M(ALUResult_M),
+        .ImmExt_M(ImmExt_M),
+        .PCPlus4_M(PCPlus4_M),
+
+        .RD_M(RD_M),
+
+        //---------------- Outputs ----------------
+
+        .RegWrite_W(RegWrite_W),
+        .ResultSrc_W(ResultSrc_W),
+
+        .ReadData_W(ReadData_W),
+        .ALUResult_W(ALUResult_W),
+        .ImmExt_W(ImmExt_W),
+        .PCPlus4_W(PCPlus4_W),
+
+        .RD_W(RD_W)
+
+    );
+    //========================================================
+    // WRITE BACK MUX
+    //========================================================
+
+    wb_mux WB_MUX(
+
+        .result_src_in(ResultSrc_W),
+
+        .alu_result_in(ALUResult_W),
+        .load_data_in(ReadData_W),
+        .pc_plus4_in(PCPlus4_W),
+        .imm_data_in(ImmExt_W),
+
+        .wb_data_out(WB_Data)
+
+    );
+
+endmodule

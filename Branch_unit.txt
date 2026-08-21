@@ -1,0 +1,24 @@
+module branch_unit(src_data1_in,src_data2_in,branch_cond_in,branch_taken_out);
+  input [31:0] src_data1_in,src_data2_in;
+  input [7:0] branch_cond_in;
+  output reg branch_taken_out;
+  
+  always @(*) begin
+    branch_taken_out = 1'b0;
+    
+    if(branch_cond_in == 8'b00000001)
+      branch_taken_out = (src_data1_in == src_data2_in);
+    else if(branch_cond_in ==8'b00000010)
+      branch_taken_out = (src_data1_in != src_data2_in);
+    else if(branch_cond_in ==8'b00000100)
+      branch_taken_out = ($signed(src_data1_in )< $signed(src_data2_in));
+    else if (branch_cond_in ==8'b00001000)
+      branch_taken_out =  ($signed(src_data1_in )>= $signed(src_data2_in));
+    else if (branch_cond_in == 8'b00010000)
+       branch_taken_out=1'b1;
+    else if (branch_cond_in == 8'b00100000)
+       branch_taken_out=1'b1;
+    else
+      branch_taken_out=1'b0;
+  end
+endmodule
