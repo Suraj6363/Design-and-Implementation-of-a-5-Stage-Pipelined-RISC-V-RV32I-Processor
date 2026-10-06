@@ -1,3 +1,240 @@
+# Design and Implementation of a 5-Stage Pipelined RISC-V RV32I Processor
+
+A modular Verilog RTL implementation of a five-stage pipelined RISC-V RV32I processor with data forwarding, load-use hazard detection, pipeline stalling, control-hazard flushing, and self-checking functional verification.
+
+---
+
+## 📌 Overview
+
+### 📖 What is RISC-V?
+
+RISC-V is an open and royalty-free Instruction Set Architecture (ISA) that defines the instructions and programmer-visible behaviour of a processor.
+
+### 🔢 What is RV32I?
+
+RV32I is the 32-bit base integer instruction set of RISC-V.
+
+---
+
+## 🧠 Why RISC-V in This Project?
+
+...
+
+---
+
+## 🎯 Objectives
+
+- Design a five-stage pipelined RV32I processor in Verilog HDL.
+- Implement a modular processor datapath and control logic.
+- Implement data forwarding between pipeline stages.
+
+---
+
+## ✨ Key Features
+
+### ALU Operations
+
+- ADD
+- SUB
+- AND
+- OR
+- XOR
+- SLL
+- SRL
+- SRA
+- SLT
+- SLTU
+
+### I-Type Arithmetic
+
+- ADDI
+- ANDI
+- XORI
+- ORI
+
+---
+
+## 🏗️ Processor Architecture
+
+...
+
+---
+
+## 🧩 RTL Module Description
+
+...
+
+---
+
+## ⚙️ Working Principle
+
+...
+
+---
+
+## 🧠 Instruction Support
+
+### R-Type
+
+| Instruction | Operation |
+|---|---|
+| ADD | Addition |
+| SUB | Subtraction |
+| AND | Bitwise AND |
+| OR | Bitwise OR |
+
+### I-Type Arithmetic
+
+...
+
+---
+
+## 🔁 Hazard Handling
+
+### Data Forwarding
+
+...
+
+### Load-Use Hazard
+
+...
+
+### Control Hazard
+
+...
+
+---
+
+## 💻 Implementation Details
+
+### ALU
+
+...
+
+### Immediate Generator
+
+...
+
+### Register File
+
+...
+
+### Branch / Jump Address Calculation
+
+...
+
+### Write-Back
+
+...
+
+---
+
+## 🧪 Verification and Testing
+
+...
+
+---
+
+## 📊 Results
+
+| Verification Item | Result |
+|---|---|
+| R-type arithmetic and logical instructions | PASS |
+| I-type arithmetic instructions | PASS |
+| Load instructions | PASS |
+| Store instructions | PASS |
+| Load-use hazard and one-cycle stall | PASS |
+| Taken branch and pipeline flush | PASS |
+| JAL | PASS |
+| JALR | PASS |
+| LUI | PASS |
+| AUIPC | PASS |
+| x0 hard-wired-zero behaviour | PASS |
+| **Total architectural checks** | **31 / 31 PASS** |
+
+---
+
+## 🔍 Challenges and Solutions
+
+### Challenge 1 — Same-Cycle Register-File Read/Write Collision
+
+...
+
+### Challenge 2 — AUIPC Result Path
+
+...
+
+---
+
+## 🛠️ Technologies and Tools
+
+...
+
+---
+
+## 📂 Project Structure
+
+...
+
+---
+
+## 🚀 How to Run
+
+...
+
+---
+
+## 📋 Requirements
+
+### Software
+
+...
+
+### Hardware
+
+...
+
+---
+
+## ⚠️ Current Scope and Limitations
+
+...
+
+---
+
+## 📈 Future Improvements
+
+...
+
+---
+
+## 📚 Learning Outcomes
+
+...
+
+---
+
+## 📄 Project Documentation
+
+...
+
+---
+
+## 👨‍💻 Author
+
+**Suraj Madiwal**
+
+**Project Domain:** RTL Design
+
+**Project Period:** May 2026 – July 2026
+
+**Organization / Program:** SURE Trust – IERY
+
+---
+
+## ⭐ Conclusion
+
+...
 Design and Implementation of a 5-Stage Pipelined RISC-V RV32I Processor
 
 A modular Verilog RTL implementation of a five-stage pipelined RISC-V RV32I processor with data forwarding, load-use hazard detection, pipeline stalling, control-hazard flushing, and self-checking functional verification.
