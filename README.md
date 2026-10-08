@@ -1,932 +1,725 @@
 # Design and Implementation of a 5-Stage Pipelined RISC-V RV32I Processor
 
-A modular Verilog RTL implementation of a five-stage pipelined RISC-V RV32I processor with data forwarding, load-use hazard detection, pipeline stalling, control-hazard flushing, and self-checking functional verification.
+### A Modular Verilog RTL Processor with Data Forwarding, Load-Use Hazard Detection, Pipeline Stalling, Control-Hazard Flushing, and Self-Checking Verification
+
+<p align="center">
+
+![RISC-V](https://img.shields.io/badge/ISA-RISC--V%20RV32I-blue)
+![Verilog](https://img.shields.io/badge/HDL-Verilog-orange)
+![RTL](https://img.shields.io/badge/Design-RTL-green)
+![Pipeline](https://img.shields.io/badge/Pipeline-5--Stage-purple)
+![Verification](https://img.shields.io/badge/Verification-Self--Checking-success)
+![Tests](https://img.shields.io/badge/Tests-31%2F31%20PASS-brightgreen)
+
+</p>
+
+## 🔗 Project Links
+
+- 📂 **GitHub Repository:** [View Source Code](https://github.com/Suraj6363/Design-and-Implementation-of-a-5-Stage-Pipelined-RISC-V-RV32I-Processor)
+- ▶️ **EDA Playground:** [Run RTL Simulation](https://edaplayground.com/x/fjmU)
+
+
+
+## 📌 Project Overview
+
+This project presents the **design and functional verification of a 32-bit, five-stage pipelined RISC-V RV32I processor** using **Verilog HDL**.
+
+The processor is implemented using a **modular RTL architecture** consisting of independent datapath, control, pipeline-register, memory-interface, and hazard-handling modules.
+
+The design supports:
+
+- Arithmetic and logical operations
+- Immediate operations
+- Load/store instructions
+- Conditional branches
+- Jumps
+- U-type instructions
+- Data forwarding
+- Load-use hazard detection
+- Pipeline stalling
+- Control-hazard flushing
+- Register-file read-during-write bypass
+- Self-checking functional verification
+
+The final verified implementation successfully passed:
+
+> ## ✅ 31 / 31 Architectural Checks
 
 ---
 
-## 📌 Overview
+# 🧭 Table of Contents
 
-### 📖 What is RISC-V?
-
-RISC-V is an open and royalty-free Instruction Set Architecture (ISA) that defines the instructions and programmer-visible behaviour of a processor.
-
-### 🔢 What is RV32I?
-
-RV32I is the 32-bit base integer instruction set of RISC-V.
-
----
-
-## 🧠 Why RISC-V in This Project?
-
-...
-
----
-
-## 🎯 Objectives
-
-- Design a five-stage pipelined RV32I processor in Verilog HDL.
-- Implement a modular processor datapath and control logic.
-- Implement data forwarding between pipeline stages.
-
----
-
-## ✨ Key Features
-
-### ALU Operations
-
-- ADD
-- SUB
-- AND
-- OR
-- XOR
-- SLL
-- SRL
-- SRA
-- SLT
-- SLTU
-
-### I-Type Arithmetic
-
-- ADDI
-- ANDI
-- XORI
-- ORI
+- [Project Overview](#-project-overview)
+- [What is RISC-V?](#-what-is-risc-v)
+- [What is RV32I?](#-what-is-rv32i)
+- [Project Objectives](#-project-objectives)
+- [Key Features](#-key-features)
+- [Processor Architecture](#-processor-architecture)
+- [Pipeline Stages](#-pipeline-stages)
+- [Instruction Set Support](#-instruction-set-support)
+- [RTL Module Architecture](#-rtl-module-architecture)
+- [Working Principle](#-working-principle)
+- [Pipeline Hazard Handling](#-pipeline-hazard-handling)
+- [Implementation Details](#-implementation-details)
+- [Verification Strategy](#-verification-strategy)
+- [Verification Results](#-verification-results)
+- [Debugging and Challenges](#-debugging-and-challenges)
+- [Technologies and Tools](#-technologies-and-tools)
+- [Project Structure](#-project-structure)
+- [How to Run](#-how-to-run)
+- [Requirements](#-requirements)
+- [Current Scope and Limitations](#-current-scope-and-limitations)
+- [Future Improvements](#-future-improvements)
+- [Skills Demonstrated](#-skills-demonstrated)
+- [Learning Outcomes](#-learning-outcomes)
+- [Project Documentation](#-project-documentation)
+- [Author](#-author)
+- [Conclusion](#-conclusion)
 
 ---
 
-## 🏗️ Processor Architecture
+# 🧠 What is RISC-V?
 
-...
-
----
-
-## 🧩 RTL Module Description
-
-...
-
----
-
-## ⚙️ Working Principle
-
-...
-
----
-
-## 🧠 Instruction Support
-
-### R-Type
-
-| Instruction | Operation |
-|---|---|
-| ADD | Addition |
-| SUB | Subtraction |
-| AND | Bitwise AND |
-| OR | Bitwise OR |
-
-### I-Type Arithmetic
-
-...
-
----
-
-## 🔁 Hazard Handling
-
-### Data Forwarding
-
-...
-
-### Load-Use Hazard
-
-...
-
-### Control Hazard
-
-...
-
----
-
-## 💻 Implementation Details
-
-### ALU
-
-...
-
-### Immediate Generator
-
-...
-
-### Register File
-
-...
-
-### Branch / Jump Address Calculation
-
-...
-
-### Write-Back
-
-...
-
----
-
-## 🧪 Verification and Testing
-
-...
-
----
-
-## 📊 Results
-
-| Verification Item | Result |
-|---|---|
-| R-type arithmetic and logical instructions | PASS |
-| I-type arithmetic instructions | PASS |
-| Load instructions | PASS |
-| Store instructions | PASS |
-| Load-use hazard and one-cycle stall | PASS |
-| Taken branch and pipeline flush | PASS |
-| JAL | PASS |
-| JALR | PASS |
-| LUI | PASS |
-| AUIPC | PASS |
-| x0 hard-wired-zero behaviour | PASS |
-| **Total architectural checks** | **31 / 31 PASS** |
-
----
-
-## 🔍 Challenges and Solutions
-
-### Challenge 1 — Same-Cycle Register-File Read/Write Collision
-
-...
-
-### Challenge 2 — AUIPC Result Path
-
-...
-
----
-
-## 🛠️ Technologies and Tools
-
-...
-
----
-
-## 📂 Project Structure
-
-...
-
----
-
-## 🚀 How to Run
-
-...
-
----
-
-## 📋 Requirements
-
-### Software
-
-...
-
-### Hardware
-
-...
-
----
-
-## ⚠️ Current Scope and Limitations
-
-...
-
----
-
-## 📈 Future Improvements
-
-...
-
----
-
-## 📚 Learning Outcomes
-
-...
-
----
-
-## 📄 Project Documentation
-
-...
-
----
-
-## 👨‍💻 Author
-
-**Suraj Madiwal**
-
-**Project Domain:** RTL Design
-
-**Project Period:** May 2026 – July 2026
-
-**Organization / Program:** SURE Trust – IERY
-
----
-
-## ⭐ Conclusion
-
-...
-Design and Implementation of a 5-Stage Pipelined RISC-V RV32I Processor
-
-A modular Verilog RTL implementation of a five-stage pipelined RISC-V RV32I processor with data forwarding, load-use hazard detection, pipeline stalling, control-hazard flushing, and self-checking functional verification.
-
-📌 Overview
-
-📖 What is RISC-V?
-
-RISC-V is an open and royalty-free Instruction Set Architecture (ISA) that defines the instructions and programmer-visible behaviour of a processor.
+**RISC-V** is an open and royalty-free **Instruction Set Architecture (ISA)** that defines the instructions and programmer-visible behaviour of a processor.
 
 Because the ISA is openly specified, RISC-V can be used for education, research, embedded systems, processor development, and other hardware applications without requiring a proprietary instruction-set licence.
 
-🔢 What is RV32I?
+---
 
-RV32I is the 32-bit base integer instruction set of RISC-V.
+# 🔢 What is RV32I?
 
-RV → RISC-V
+**RV32I** is the 32-bit base integer instruction set of RISC-V.
 
-32 → 32-bit architecture
+| Term | Meaning |
+|---|---|
+| **RV** | RISC-V |
+| **32** | 32-bit architecture |
+| **I** | Base Integer Instruction Set |
 
-I → Base Integer Instruction Set
+The RV32I base instruction set provides fundamental operations for:
 
-The RV32I base instruction set provides fundamental operations for integer computation, memory access, control flow, and data movement.
+- Integer computation
+- Memory access
+- Control flow
+- Data movement
 
-This project implements a selected subset of RV32I instructions using Verilog RTL.
+This project implements a **selected subset of RV32I instructions** using Verilog RTL.
 
-Instruction Type
+---
 
-Implemented Instructions
+# 🎯 Project Objectives
 
-R-Type
+The primary objectives of this project were:
 
-ADD, SUB, AND, OR, XOR, SLL, SRL, SRA, SLT, SLTU
+- Design a five-stage pipelined RV32I processor in Verilog HDL.
+- Build a modular processor datapath and control system.
+- Implement pipeline registers between processor stages.
+- Implement data forwarding between pipeline stages.
+- Detect load-use data hazards.
+- Implement pipeline stalling and bubble insertion.
+- Handle control hazards using pipeline flushing.
+- Support the targeted RV32I instruction classes.
+- Develop a self-checking verification environment.
+- Debug RTL failures using cycle-by-cycle pipeline analysis.
+- Validate register-file and data-memory architectural results.
 
+---
+
+# ✨ Key Features
+
+## 🏗️ Processor
+
+- 32-bit RISC-V RV32I datapath
+- Five-stage pipeline
+- Modular Verilog RTL architecture
+- Separate datapath and control logic
+- Pipeline registers between stages
+
+## ⚙️ Execution
+
+- Arithmetic operations
+- Logical operations
+- Shift operations
+- Signed and unsigned comparisons
+- Immediate operations
+- Load/store operations
+- Conditional branches
+- Jumps
+- U-type instructions
+
+## 🚧 Hazard Management
+
+- EX-stage forwarding
+- MEM-stage forwarding
+- WB-stage forwarding
+- Load-use hazard detection
+- One-cycle pipeline stall
+- Bubble insertion
+- Branch/jump pipeline flushing
+- Register-file read-during-write bypass
+
+## 🧪 Verification
+
+- Directed instruction testing
+- Self-checking testbench
+- Architectural register checks
+- Data-memory checks
+- Pipeline monitoring
+- Cycle-by-cycle debugging
+- **31 / 31 checks passed**
+
+---
+
+# 🏗️ Processor Architecture
+
+The processor follows the classic five-stage pipeline:
+
+```text
+                  ┌──────┐
+                  │  IF  │
+                  └──┬───┘
+                     │
+                     ▼
+                  ┌──────┐
+                  │  ID  │
+                  └──┬───┘
+                     │
+                     ▼
+                  ┌──────┐
+                  │  EX  │
+                  └──┬───┘
+                     │
+                     ▼
+                  ┌──────┐
+                  │ MEM  │
+                  └──┬───┘
+                     │
+                     ▼
+                  ┌──────┐
+                  │  WB  │
+                  └──────┘
+```
+
+### Complete Datapath View
+
+```text
+                    ┌─────────────────────┐
+                    │   Program Counter   │
+                    │        PC Unit      │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Instruction Fetch   │
+                    │        IF           │
+                    └──────────┬──────────┘
+                               │
+                         IF / ID Register
+                               │
+                               ▼
+             ┌────────────────────────────────┐
+             │        Instruction Decode      │
+             │                                │
+             │  Decoder │ Register File       │
+             │  ImmGen  │ Control Generation │
+             └───────────────┬────────────────┘
+                             │
+                       ID / EX Register
+                             │
+                             ▼
+             ┌────────────────────────────────┐
+             │          Execute (EX)          │
+             │                                │
+             │ ALU │ Branch Unit │ Imm Adder │
+             │       Forwarding Logic         │
+             └───────────────┬────────────────┘
+                             │
+                       EX / MEM Register
+                             │
+                             ▼
+             ┌────────────────────────────────┐
+             │       Memory Access (MEM)      │
+             │                                │
+             │ Load Unit │ Store Unit         │
+             └───────────────┬────────────────┘
+                             │
+                       MEM / WB Register
+                             │
+                             ▼
+             ┌────────────────────────────────┐
+             │         Write-Back (WB)        │
+             │                                │
+             │          WB Multiplexer        │
+             └───────────────┬────────────────┘
+                             │
+                             ▼
+                       Register File
+```
+
+---
+
+# 🔄 Pipeline Stages
+
+| Stage | Description |
+|---|---|
+| **IF — Instruction Fetch** | Program counter update and instruction fetch |
+| **ID — Instruction Decode** | Instruction decoding, register reads, immediate generation and control generation |
+| **EX — Execute** | ALU operations, operand forwarding, branch calculation and branch decision |
+| **MEM — Memory Access** | Load/store memory interface |
+| **WB — Write-Back** | Selects final result and writes it to the destination register |
+
+The pipeline registers transfer datapath and control information between stages.
+
+---
+
+# 📚 Instruction Set Support
+
+The processor implements the following targeted instruction subset.
+
+## R-Type Instructions
+
+| Instruction | Operation |
+|---|---|
+| `ADD` | Addition |
+| `SUB` | Subtraction |
+| `AND` | Bitwise AND |
+| `OR` | Bitwise OR |
+| `XOR` | Bitwise XOR |
+| `SLL` | Logical left shift |
+| `SRL` | Logical right shift |
+| `SRA` | Arithmetic right shift |
+| `SLT` | Signed less-than comparison |
+| `SLTU` | Unsigned less-than comparison |
+
+## I-Type Arithmetic
+
+| Instruction | Operation |
+|---|---|
+| `ADDI` | Add immediate |
+| `ANDI` | AND immediate |
+| `XORI` | XOR immediate |
+| `ORI` | OR immediate |
+
+## Load Instructions
+
+| Instruction |
+|---|
+| `LB` |
+| `LH` |
+| `LW` |
+| `LBU` |
+| `LHU` |
+
+## Store Instructions
+
+| Instruction |
+|---|
+| `SB` |
+| `SH` |
+| `SW` |
+
+## Branch Instructions
+
+| Instruction |
+|---|
+| `BEQ` |
+| `BNE` |
+| `BLT` |
+| `BGE` |
+
+## Jump Instructions
+
+| Instruction |
+|---|
+| `JAL` |
+| `JALR` |
+
+## U-Type Instructions
+
+| Instruction | Function |
+|---|---|
+| `LUI` | Load Upper Immediate |
+| `AUIPC` | Add Upper Immediate to PC |
+
+---
+
+# 🧩 RTL Module Architecture
+
+The processor is divided into modular RTL blocks.
+
+| Module | Function |
+|---|---|
+| `Top_Module.v` | Top-level processor integration |
+| `PC_unit.v` | PC update, stalls and branch/jump redirection |
+| `IF_Register.v` | IF/ID pipeline register |
+| `Decoder.v` | Instruction decoding and control generation |
+| `Register_file.v` | 32 × 32-bit register file |
+| `imm_Gen.v` | Immediate generation |
+| `ID_Register.v` | ID/EX pipeline register |
+| `ALU.v` | Arithmetic, logical, shift and comparison operations |
+| `Imm_adder.v` | Immediate address/result calculations |
+| `Branch_unit.v` | Branch condition evaluation |
+| `EX_Register.v` | EX/MEM pipeline register |
+| `Store_unit.v` | Store address, data and write-mask generation |
+| `Load_unit.v` | Load-size selection and sign/zero extension |
+| `MEM_WB_Register.v` | MEM/WB pipeline register |
+| `WB_mux.v` | Write-back result selection |
+| `Hazard_unit.v` | Hazard detection, forwarding, stalls and flushes |
+| `Testbench_module.v` | Instruction/data-memory models and verification |
+
+---
+
+# ⚙️ Working Principle
+
+The processor executes instructions through the following sequence.
+
+### 1️⃣ Fetch
+
+The PC Unit provides the current instruction address and calculates `PC + 4`.
+
+### 2️⃣ Decode
+
+The Decoder identifies the instruction and generates the required control signals.
+
+### 3️⃣ Register Read
+
+The Register File provides the source operands.
+
+Register `x0` is permanently maintained at zero.
+
+### 4️⃣ Immediate Generation
+
+The Immediate Generator produces the required immediate value according to the instruction format.
+
+Supported formats:
+
+```text
 I-Type
-
-ADDI, ANDI, XORI, ORI
-
-Load
-
-LB, LH, LW, LBU, LHU
-
-Store
-
-SB, SH, SW
-
-Branch
-
-BEQ, BNE, BLT, BGE
-
-Jump
-
-JAL, JALR
-
+S-Type
+B-Type
 U-Type
+J-Type
+```
 
-LUI, AUIPC
-
-🧠 Why RISC-V in This Project?
-
-RISC-V provides a practical architecture for studying processor design at RTL level. In this project, the RISC-V instruction formats and operations are translated into a modular processor datapath and control system.
-
-A RISC-V instruction passes through the processor as follows:
-
-Fetch the instruction using the Program Counter.
-
-Decode the instruction and generate control signals.
-
-Read the required operands from the register file.
-
-Execute the operation using the ALU or branch logic.
-
-Access memory for load/store instructions when required.
-
-Write back the final result to the register file.
-
-These operations are overlapped using the five-stage pipeline:
-
-Instruction Fetch → Instruction Decode → Execute → Memory Access → Write-Back
-
-This project implements and functionally verifies a classic five-stage pipelined processor based on the RISC-V RV32I base integer instruction set.
-
-The processor is organized into the standard pipeline stages:
-
-IF → ID → EX → MEM → WB
-
-The design supports R-type and I-type arithmetic instructions, loads, stores, conditional branches, jumps, and U-type instructions. The pipeline includes forwarding logic for data hazards, load-use stall detection, and flushing for taken branches and jumps.
-
-The RTL was developed as independent Verilog modules and integrated through a top-level processor datapath. Functional verification was performed with a self-checking testbench.
-
-🎯 Objectives
-
-Design a five-stage pipelined RV32I processor in Verilog HDL.
-
-Implement a modular processor datapath and control logic.
-
-Implement data forwarding between pipeline stages.
-
-Detect and handle load-use data hazards using a pipeline stall.
-
-Handle control hazards using pipeline flushing.
-
-Support the targeted RV32I instruction classes.
-
-Develop a self-checking verification environment.
-
-Debug functional failures using cycle-by-cycle pipeline analysis.
-
-Validate architectural register-file and data-memory results against expected values.
-
-✨ Key Features
-
-32-bit RV32I datapath.
-
-Five-stage pipeline:
-
-Instruction Fetch (IF)
-
-Instruction Decode (ID)
-
-Execute (EX)
-
-Memory Access (MEM)
-
-Write-Back (WB)
-
-Modular Verilog RTL architecture.
-
-ALU operations including:
-
-ADD
-
-SUB
-
-AND
-
-OR
-
-XOR
-
-SLL
-
-SRL
-
-SRA
-
-SLT
-
-SLTU
-
-I-type arithmetic:
-
-ADDI
-
-ANDI
-
-XORI
-
-ORI
-
-Load instructions:
-
-LB
-
-LH
-
-LW
-
-LBU
-
-LHU
-
-Store instructions:
-
-SB
-
-SH
-
-SW
-
-Conditional branches:
-
-BEQ
-
-BNE
-
-BLT
-
-BGE
-
-Jump instructions:
-
-JAL
-
-JALR
-
-U-type instructions:
-
-LUI
-
-AUIPC
-
-EX-stage operand forwarding from MEM and WB stages.
-
-Load-use hazard detection and one-cycle stalling.
-
-Pipeline flushing for taken branches and jumps.
-
-Register-file read-during-write bypass.
-
-Self-checking verification with 31 architectural checks.
-
-🏗️ Processor Architecture
-
-The processor follows a five-stage pipeline:
-
-                 ┌──────────────────────────────────────────────┐
-Instruction ───► │ IF │──►│ ID │──►│ EX │──►│ MEM │──►│ WB │
-                 └────┘   └────┘   └────┘   └─────┘   └────┘
-                    │        │        │        │        │
-                    │        │        │        │        └── Register File
-                    │        │        │        └────────── Data Memory
-                    │        │        └────────────────── ALU / Branch
-                    │        └────────────────────────── Decoder / ImmGen
-                    └────────────────────────────────── Program Counter
-
-Pipeline stages
-
-Stage
-
-Main Function
-
-IF
-
-Program counter update and instruction fetch interface
-
-ID
-
-Instruction decoding, register-file reads, immediate generation and control generation
-
-EX
-
-ALU operations, operand forwarding, branch target calculation and branch decision
-
-MEM
-
-Load/store data-memory interface
-
-WB
-
-Selects the final result and writes it back to the register file
-
-Pipeline registers transfer control and datapath information between stages.
-
-🧩 RTL Module Description
-
-Module
-
-Purpose
-
-Top_Module.v
-
-Top-level processor integration and datapath connectivity
-
-PC_unit.v
-
-Program counter update, stall handling and branch/jump redirection
-
-IF_Register.v
-
-IF/ID pipeline register with stall and flush support
-
-Decoder.v
-
-Decodes opcode/function fields and generates control signals
-
-Register_file.v
-
-32 × 32-bit register file with x0 fixed at zero and read-during-write bypass
-
-imm_Gen.v
-
-Generates sign-extended immediates for I, S, B, U and J instruction formats
-
-ID_Register.v
-
-ID/EX pipeline register with reset and bubble insertion
-
-ALU.v
-
-Performs arithmetic, logical, shift and comparison operations
-
-Imm_adder.v
-
-Calculates PC-relative or register-relative immediate sums
-
-Branch_unit.v
-
-Evaluates supported branch conditions and generates branch-taken status
-
-EX_Register.v
-
-EX/MEM pipeline register
-
-Store_unit.v
-
-Generates store address, write data and byte/halfword/word write masks
-
-Load_unit.v
-
-Performs load-size selection and signed/unsigned extension
-
-MEM_WB_Register.v
-
-MEM/WB pipeline register
-
-WB_mux.v
-
-Selects ALU, load-data, PC+4 or immediate data for write-back
-
-Hazard_unit.v
-
-Detects load-use hazards, generates stalls/flushes and controls forwarding
-
-Testbench_module.v
-
-Provides the instruction/data-memory models and self-checking verification sequence
-
-The top-level design includes the processor modules through Verilog include statements and connects the five pipeline stages through the associated pipeline registers.
-
-⚙️ Working Principle
-
-The PC unit provides the current instruction address and calculates PC + 4.
-
-The fetched instruction and PC information are transferred through the IF/ID register.
-
-The Decoder identifies the instruction and generates control signals.
-
-The Register File provides source operands.
-
-The Immediate Generator creates the required immediate value according to the instruction format.
-
-The ID/EX register transfers the decoded control and datapath information into the Execute stage.
-
-The Hazard Unit determines whether forwarding, stalling or flushing is required.
+### 5️⃣ Execute
 
 The ALU performs the required arithmetic, logical, shift or comparison operation.
 
-The branch unit evaluates supported branch conditions and determines whether control flow must change.
+The Branch Unit handles supported branch conditions.
 
-The EX/MEM register transfers execution results and memory-control information to the Memory stage.
+### 6️⃣ Memory Access
 
-Load/store logic interfaces with the behavioural data-memory model.
+Load and store operations interact with the behavioural data-memory model.
 
-The MEM/WB register transfers the required result toward Write-Back.
+### 7️⃣ Write-Back
 
-The Write-Back multiplexer selects the appropriate result source.
+The Write-Back multiplexer selects the appropriate result and writes it to the destination register.
 
-The selected result is written to the destination register when register write enable is asserted.
+Possible write-back sources include:
 
-🧠 Instruction Support
+```text
+ALU Result
+Load Data
+PC + 4
+Immediate Data
+```
 
-R-Type
+---
 
-Instruction
+# 🔁 Pipeline Hazard Management
 
-Operation
+Pipeline hazards are one of the major challenges in a pipelined processor.
 
-ADD
+This project handles hazards using:
 
-Addition
+```text
+┌─────────────────────────────┐
+│       Hazard Unit           │
+├─────────────────────────────┤
+│ Data Forwarding             │
+│ Load-Use Detection          │
+│ Pipeline Stall              │
+│ Bubble Insertion            │
+│ Control-Hazard Flush        │
+└─────────────────────────────┘
+```
 
-SUB
+---
 
-Subtraction
+## 🔀 Data Forwarding
 
-AND
+When an instruction requires a result that has not yet reached the Register File, the required value can be forwarded from a later pipeline stage.
 
-Bitwise AND
+The forwarding logic can select results from:
 
-OR
+```text
+MEM → EX
+WB  → EX
+```
 
-Bitwise OR
+When both stages provide a matching destination register, the **Memory-stage result receives priority**.
 
-XOR
+This reduces unnecessary pipeline stalls.
 
-Bitwise XOR
+---
 
-SLL
+# ⏸️ Load-Use Hazard
 
-Logical left shift
+A load-use hazard occurs when a load instruction produces data that is immediately required by the next instruction.
 
-SRL
+The processor responds by:
 
-Logical right shift
+```text
+1. Stall IF
+2. Stall ID
+3. Flush EX
+4. Insert one-cycle bubble
+```
 
-SRA
+Example:
 
-Arithmetic right shift
+```text
+Instruction N       : LW
+Instruction N + 1   : ADD   ← Depends on loaded data
+                         ↓
+                    Hazard Detected
+                         ↓
+                     1-Cycle Stall
+```
 
-SLT
+The dependent instruction then continues after the required delay.
 
-Signed less-than comparison
+---
 
-SLTU
-
-Unsigned less-than comparison
-
-I-Type Arithmetic
-
-ADDI
-
-ANDI
-
-XORI
-
-ORI
-
-Load / Store
-
-Loads: LB, LH, LW, LBU, LHU
-
-Stores: SB, SH, SW
-
-Branches
-
-BEQ
-
-BNE
-
-BLT
-
-BGE
-
-Jumps
-
-JAL
-
-JALR
-
-U-Type
-
-LUI
-
-AUIPC
-
-🔁 Hazard Handling
-
-Data Forwarding
-
-The Hazard Unit provides forwarding controls for Execute-stage operands. Forwarding can select results from the Memory or Write-Back stages instead of waiting for the normal register-file write-back path.
-
-The forwarding logic gives priority to the Memory-stage result when both Memory and Write-Back stages could provide a matching destination register.
-
-Load-Use Hazard
-
-A load-use dependency is detected when an instruction in the Execute stage is producing a load result required by the following instruction.
-
-The design responds by:
-
-Stalling the Fetch stage.
-
-Stalling the Decode stage.
-
-Flushing the Execute stage to insert a bubble.
-
-This creates the required one-cycle delay before the dependent instruction continues.
-
-Control Hazard
+# 🚦 Control Hazards
 
 For taken branches and jumps:
 
-The PC is redirected to the target address.
+```text
+Branch / Jump
+     │
+     ▼
+Target Address Calculation
+     │
+     ▼
+PC Redirect
+     │
+     ▼
+Flush Younger Instructions
+     │
+     ▼
+Continue from Target
+```
 
-Younger instructions in the pipeline are flushed.
+This prevents incorrectly fetched instructions from modifying the architectural state.
 
-The pipeline continues from the correct control-flow target.
+---
 
-💻 Implementation Details
+# 💻 Important RTL Components
 
-ALU
+## ALU
 
-The ALU accepts two 32-bit operands and a 4-bit control signal. It supports arithmetic, logical, shift and comparison operations.
+The ALU accepts two 32-bit operands and a 4-bit control signal.
 
-Immediate Generator
+It supports:
 
-The immediate generator supports:
+- Arithmetic
+- Logical operations
+- Shifts
+- Signed comparison
+- Unsigned comparison
 
-I-Type immediate
+---
 
-S-Type immediate
+## Register File
 
-B-Type immediate
+The processor contains:
 
-U-Type immediate
+```text
+32 × 32-bit Registers
+```
 
-J-Type immediate
+Register `x0` is hard-wired to zero.
 
-Register File
+A **read-during-write bypass** allows newly written register data to be immediately available to a simultaneous read.
 
-The processor uses 32 registers of 32 bits each.
+---
 
-Register x0 is maintained at zero. A read-during-write bypass is included so that a register being written in the current cycle can immediately provide the new value to a simultaneous read.
+## Immediate Generator
 
-Branch / Jump Address Calculation
+The Immediate Generator supports:
 
-The immediate adder supports both:
+```text
+I-Type
+S-Type
+B-Type
+U-Type
+J-Type
+```
 
-PC + immediate
+---
 
-source register + immediate
+## Branch / Jump Address Calculation
 
-This allows the datapath to support PC-relative and register-relative control-flow operations.
+The immediate adder supports:
 
-Write-Back
+```text
+PC + Immediate
+```
 
-The Write-Back multiplexer selects one of the following sources:
+and:
 
-ALU result
+```text
+Register + Immediate
+```
 
-Load data
+This enables PC-relative and register-relative control-flow operations.
 
-PC + 4
+---
 
-Immediate data
+# 🧪 Verification Strategy
 
-🧪 Verification and Testing
+Functional verification was performed using a **directed instruction sequence and a self-checking testbench**.
 
-Functional verification was performed using a directed instruction sequence and a self-checking testbench.
+The testbench verifies architectural results rather than relying only on waveform inspection.
 
-The verification environment checks architectural register-file and data-memory results against expected values.
+### Verification Areas
 
-The testbench covers:
+- R-Type arithmetic
+- R-Type logical operations
+- I-Type arithmetic
+- Load instructions
+- Store instructions
+- Load-use hazards
+- Branch-not-taken behaviour
+- Branch-taken behaviour
+- Pipeline flushing
+- JAL
+- JALR
+- LUI
+- AUIPC
+- x0 behaviour
+- Register-file results
+- Data-memory results
 
-R-type arithmetic and logical operations.
+---
 
-I-type arithmetic operations.
+# 📊 Verification Results
 
-Load operations.
+## 🏆 Final Result
 
-Store operations.
+```text
+╔══════════════════════════════════════╗
+║      FINAL VERIFICATION RESULT       ║
+╠══════════════════════════════════════╣
+║                                      ║
+║       31 / 31 CHECKS PASSED         ║
+║                                      ║
+║       Register Checks : 28 PASS      ║
+║       Memory Checks   :  3 PASS      ║
+║                                      ║
+║       TOTAL           : 31 PASS      ║
+║                                      ║
+╚══════════════════════════════════════╝
+```
 
-Load-use hazard handling.
+| Verification Item | Result |
+|---|---|
+| R-Type arithmetic and logical instructions | ✅ PASS |
+| I-Type arithmetic instructions | ✅ PASS |
+| Load instructions | ✅ PASS |
+| Store instructions | ✅ PASS |
+| Load-use hazard and one-cycle stall | ✅ PASS |
+| Taken branch and pipeline flush | ✅ PASS |
+| JAL | ✅ PASS |
+| JALR | ✅ PASS |
+| LUI | ✅ PASS |
+| AUIPC | ✅ PASS |
+| x0 hard-wired-zero behaviour | ✅ PASS |
+| **Total Architectural Checks** | **✅ 31 / 31 PASS** |
 
-Branch-not-taken behaviour.
+---
 
-Branch-taken behaviour and pipeline flushing.
+# 🐛 Debugging and Challenges
 
-JAL.
+During development, two important functional defects were identified and corrected.
 
-JALR.
+## Challenge 1 — Register-File Read/Write Collision
 
-LUI.
+### Problem
 
-AUIPC.
+A register written in the same cycle was not being observed correctly by a simultaneous register-file read.
 
-x0 hard-wired-zero behaviour.
+### Investigation
 
-Additional register-file and data-memory architectural checks.
+The issue initially appeared during the `SUB` test.
 
-The final verification suite contains 31 architectural checks: 28 register-file checks and 3 data-memory checks.
+Cycle-by-cycle pipeline analysis and signal tracing showed that the actual root cause was a **same-cycle register-file read/write collision**.
 
-📊 Results
+### Solution
 
-The final verified version passed all 31 self-checking architectural checks.
+A **write-through bypass** was implemented in the Register File.
 
-Verification Item
+```text
+Register Write
+      │
+      ├──────────────► Register Storage
+      │
+      └──────────────► Read Bypass
+                         │
+                         ▼
+                     Read Data
+```
 
-Result
+---
 
-R-type arithmetic and logical instructions
+# 🐛 Challenge 2 — AUIPC Result Path
 
-PASS
+### Problem
 
-I-type arithmetic instructions
+`AUIPC` requires:
 
-PASS
+```text
+PC + Immediate
+```
 
-Load instructions
+but the required result path to Write-Back was initially incomplete.
 
-PASS
+### Solution
 
-Store instructions
+A dedicated PC-plus-immediate datapath was added through the required pipeline registers and Write-Back multiplexer.
 
-PASS
+### Final Result
 
-Load-use hazard and one-cycle stall
+After both corrections:
 
-PASS
+```text
+31 / 31 Architectural Checks → PASS
+```
 
-Taken branch and pipeline flush
+---
 
-PASS
+# 🛠️ Technologies and Tools
 
-JAL
+| Category | Technology |
+|---|---|
+| ISA | RISC-V RV32I |
+| HDL | Verilog HDL |
+| Design Methodology | Modular RTL Design |
+| Simulation | Synopsys VCS |
+| Additional Simulation | Verilator |
+| Waveform Analysis | GTKWave |
+| Verification | Self-Checking Testbench |
+| Verification Method | Directed Testing + Architectural Checks |
+| Domain | RTL Design / Digital Design / Computer Architecture |
 
-PASS
+---
 
-JALR
+# 📂 Project Structure
 
-PASS
-
-LUI
-
-PASS
-
-AUIPC
-
-PASS
-
-x0 hard-wired-zero behaviour
-
-PASS
-
-Total architectural checks
-
-31 / 31 PASS
-
-Two functional defects were identified and corrected during development:
-
-Same-cycle register-file read/write hazard:
-A failure observed during the SUB test was traced through cycle-by-cycle pipeline analysis to a register-file read/write collision. A write-through bypass was added to the register file.
-
-AUIPC datapath omission:
-The AUIPC PC-relative result did not initially have a complete path to Write-Back. The datapath was extended to carry the PC + immediate result through the pipeline and into the Write-Back multiplexer.
-
-After these corrections, all 31 architectural checks passed.
-
-🔍 Challenges and Solutions
-
-Challenge 1 — Same-Cycle Register-File Read/Write Collision
-
-Problem:
-A register value written in the same cycle was not being observed correctly by a simultaneous register-file read.
-
-Root Cause:
-The issue was initially associated with the SUB instruction, but signal-level pipeline tracing showed that the actual problem was a same-cycle register-file read/write collision.
-
-Solution:
-A write-through bypass was added to the register file so that newly written data is directly forwarded to a matching read address.
-
-Challenge 2 — AUIPC Result Path
-
-Problem:
-The AUIPC instruction required a PC-relative PC + immediate result, but the required datapath path to Write-Back was missing.
-
-Solution:
-A dedicated PC-plus-immediate result path was added through the required pipeline registers and Write-Back multiplexer.
-
-🛠️ Technologies and Tools
-
-Category
-
-Technology / Tool
-
-ISA
-
-RISC-V RV32I
-
-HDL
-
-Verilog HDL
-
-RTL Design
-
-Modular RTL architecture
-
-Simulation / Verification
-
-Synopsys VCS
-
-Additional Simulation Tools
-
-Verilator, GTKWave
-
-Testbench
-
-Self-checking Verilog/SystemVerilog constructs
-
-Verification Method
-
-Directed tests, architectural checks and pipeline monitoring
-
-Target Domain
-
-RTL Design / Digital Design / Computer Architecture
-
-📂 Project Structure
-
-The repository contains the RTL modules and testbench used for the processor implementation.
-
+```text
 RISC-V-Processor/
+│
 ├── ALU.v
 ├── Branch_unit.v
 ├── Decoder.v
@@ -944,147 +737,271 @@ RISC-V-Processor/
 ├── Testbench_module.v
 ├── Top_Module.v
 ├── WB_mux.v
+│
 └── README.md
+```
 
-Keep the filenames in this tree consistent with the filenames committed to the repository. If you reorganize the repository into folders such as rtl/, tb/, or docs/, update this section accordingly.
+> Keep this structure synchronized with the actual files committed to the repository.
 
-🚀 How to Run
+---
 
-The project report confirms simulation using Synopsys VCS and also identifies Verilator and GTKWave in the tool flow.
+# 🚀 How to Run
 
-Because the uploaded project materials do not contain a verified final simulator command sequence, the README intentionally does not invent a command that may be incorrect for your local environment.
+The documented project flow uses **Synopsys VCS**, with **Verilator** and **GTKWave** also identified as additional simulation/debugging tools.
 
-Recommended workflow
+Since the available project materials do not contain a verified final simulator command sequence, an incorrect command is intentionally not provided here.
 
-Clone or download the repository.
+## Recommended Workflow
 
-Open the project in the supported Linux/RTL simulation environment.
+### 1. Clone the Repository
 
-Compile the RTL source files together with Testbench_module.v.
-
-Run the simulation.
-
-Review the self-checking PASS/FAIL output.
-
-Inspect waveforms with GTKWave when detailed pipeline debugging is required.
-
-Simulation Command
-
-[Add the verified Synopsys VCS or Verilator command used for this repository here]
-
-Example repository setup
-
+```bash
 git clone <your-repository-url>
+```
+
+### 2. Enter the Project Directory
+
+```bash
 cd <your-repository-folder>
+```
 
-Replace <your-repository-url> and <your-repository-folder> with the actual repository details after creating the GitHub repository.
+### 3. Compile the RTL
 
-📋 Requirements
+Compile the RTL source files together with:
 
-Software
+```text
+Testbench_module.v
+```
 
-Linux environment suitable for RTL simulation.
+### 4. Run Simulation
 
-Verilog HDL support.
+Run the simulation using the supported RTL simulator.
 
-Synopsys VCS for the documented verification flow.
+### 5. Verify Results
 
-Verilator and GTKWave as applicable to the available simulation flow.
+Check the self-checking `PASS / FAIL` output.
 
-Git for repository management.
+### 6. Debug Waveforms
 
-Hardware
+Use GTKWave when detailed pipeline and signal-level debugging is required.
+
+## ▶️ Run on EDA Playground
+
+The processor RTL can also be simulated online using the provided EDA Playground environment.
+
+👉 **[Open EDA Playground Simulation](https://edaplayground.com/x/fjmU)**
+
+The EDA Playground setup contains the required RTL and testbench files for functional simulation.
+
+After running the simulation:
+
+- Check the console output for `PASS / FAIL` results.
+- Verify the final **31 / 31 Architectural Checks PASS** result.
+- Use the waveform viewer for cycle-by-cycle signal analysis when required.
+
+---
+
+# 📋 Requirements
+
+## Software
+
+- Linux environment suitable for RTL simulation
+- Verilog HDL support
+- Synopsys VCS
+- Verilator
+- GTKWave
+- Git
+
+## Hardware
 
 No FPGA or ASIC hardware deployment is required for the current verified implementation.
 
-The project report states that the current implementation is focused on RTL simulation and has not yet been taken through synthesis, timing closure, or FPGA/ASIC deployment.
+The current project focuses on **RTL simulation and functional verification**.
 
-⚠️ Current Scope and Limitations
+---
 
-The current implementation focuses on functional RTL correctness through simulation.
+# ⚠️ Current Scope and Limitations
+
+The current implementation focuses on **functional RTL correctness through simulation**.
 
 The project does not currently claim:
 
-Logic synthesis.
+- Logic synthesis
+- Timing closure
+- FPGA deployment
+- ASIC implementation
+- Synthesisable memory macros
 
-Timing closure.
+The instruction and data memories are modelled behaviourally within the testbench.
 
-FPGA deployment.
+---
 
-ASIC implementation.
+# 📈 Future Improvements
 
-Synthesisable memory macros.
+## 🔧 Hardware Implementation
 
-Instruction and data memories are modelled behaviourally within the testbench.
+- Logic synthesis
+- FPGA deployment
+- Timing-closure analysis
+- Real hardware validation
 
-📈 Future Improvements
+## 📚 Instruction Set Expansion
 
-The documented future scope includes:
+- Remaining RV32I instructions such as:
+  - `FENCE`
+  - `ECALL`
+  - `EBREAK`
+- Optional M extension:
+  - Multiplication
+  - Division
 
-Carry the design through logic synthesis and FPGA deployment.
+## 💾 Memory System
 
-Validate timing closure and real hardware operation.
+- Replace behavioural memories with a synthesisable memory subsystem.
+- Add a standard memory-mapped bus interface.
 
-Extend the instruction set with remaining RV32I instructions such as FENCE and ECALL/EBREAK.
+## ⚡ Advanced Processor Features
 
-Add optional standard extensions such as the M multiplication/division extension.
+- Exception handling
+- Interrupt handling
+- Branch prediction
+- Reduced control-hazard penalties
 
-Replace behavioural instruction/data memories with a synthesisable memory subsystem.
+---
 
-Add a standard memory-mapped bus interface.
+# 🧠 Skills Demonstrated
 
-Add exception and interrupt handling.
+This project demonstrates practical experience in:
 
-Introduce branch prediction to reduce control-hazard penalties.
+### RTL Design
 
-📚 Learning Outcomes
+- Verilog HDL
+- Modular RTL architecture
+- Datapath design
+- Control-path design
+- Pipeline register design
 
-This project provided practical experience in:
+### Computer Architecture
 
-Verilog HDL and RTL coding.
+- RISC-V RV32I
+- Five-stage pipelining
+- Instruction decoding
+- ALU architecture
+- Register-file architecture
+- Memory access
 
-Five-stage pipelined processor architecture.
+### Pipeline Design
 
-RISC-V RV32I instruction decoding and execution.
+- Data forwarding
+- Load-use hazard detection
+- Pipeline stalls
+- Bubble insertion
+- Control-hazard flushing
 
-Datapath and control-path design.
+### Verification
 
-Pipeline register design.
+- Self-checking testbench
+- Directed testing
+- Architectural checking
+- Cycle-by-cycle debugging
+- Waveform analysis
+- Root-cause analysis
 
-Data forwarding.
+### Tools
 
-Load-use hazard detection.
+- Synopsys VCS
+- Verilator
+- GTKWave
+- Git
 
-Pipeline stalling and bubble insertion.
+---
 
-Control-hazard flushing.
+# 📚 Learning Outcomes
 
-Self-checking verification.
+Through this project, I gained practical experience in:
 
-Cycle-by-cycle simulation debugging.
+- Verilog HDL and RTL coding
+- RISC-V RV32I architecture
+- Five-stage pipelined processor design
+- Instruction decoding and execution
+- Datapath and control-path implementation
+- Pipeline register design
+- Data forwarding
+- Load-use hazard detection
+- Pipeline stalling
+- Bubble insertion
+- Control-hazard flushing
+- Self-checking verification
+- Cycle-by-cycle simulation debugging
+- RTL fault isolation
+- Root-cause analysis
+- Synopsys VCS-based functional verification
+- Verilator and GTKWave-based debugging
 
-Root-cause analysis of timing-dependent RTL defects.
+---
 
-Synopsys VCS-based functional verification.
+# 📄 Project Documentation
 
-Verilator and GTKWave-based simulation/debugging.
+The complete project report documents:
 
-📄 Project Documentation
+- Processor architecture
+- Design methodology
+- RTL implementation
+- Verification methodology
+- Verification results
+- Debugging challenges
+- Learning outcomes
+- Future scope
 
-The complete project report is available separately and documents the architecture, methodology, verification process, results, challenges, learning outcomes and future scope.
+---
 
-👨‍💻 Author
+# 👨‍💻 Author
 
-Suraj Madiwal
+## Suraj Madiwal
 
-Project Domain: RTL Design
+**Domain:** RTL Design  
+**Project:** 5-Stage Pipelined RISC-V RV32I Processor  
+**Project Period:** May 2026 – July 2026  
+**Organization / Program:** SURE Trust – IERY
 
-Project Period: May 2026 – July 2026
+---
 
-Organization / Program: SURE Trust – IERY
+# ⭐ Conclusion
 
-⭐ Conclusion
+This project demonstrates the **design and functional verification of a modular five-stage pipelined RISC-V RV32I processor using Verilog HDL**.
 
-This project demonstrates the design and functional verification of a modular five-stage pipelined RISC-V RV32I processor in Verilog HDL. The implementation includes instruction decoding, register-file operation, ALU processing, memory access, write-back, data forwarding, load-use hazard handling and control-hazard flushing.
+The processor implements:
 
-The final design passed all 31 self-checking architectural tests after systematic debugging and correction of two functional defects. The project therefore provides a practical demonstration of RTL design, computer architecture, pipeline hazard handling and simulation-based verification.
+```text
+RISC-V RV32I
+      │
+      ▼
+Instruction Decode
+      │
+      ▼
+Five-Stage Pipeline
+      │
+      ├── IF
+      ├── ID
+      ├── EX
+      ├── MEM
+      └── WB
+      │
+      ▼
+Hazard Handling
+      │
+      ├── Forwarding
+      ├── Load-Use Detection
+      ├── Stalling
+      └── Flushing
+      │
+      ▼
+Self-Checking Verification
+      │
+      ▼
+31 / 31 PASS
+```
+
+The final design passed **all 31 self-checking architectural tests** after systematic debugging and correction of two functional defects.
+
+This project demonstrates practical knowledge of **RTL design, RISC-V architecture, processor pipelining, hazard handling, Verilog HDL, and simulation-based functional verification**.
