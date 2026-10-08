@@ -149,9 +149,8 @@ The primary objectives of this project were:
 
 ## 🚧 Hazard Management
 
-- EX-stage forwarding
-- MEM-stage forwarding
-- WB-stage forwarding
+- MEM-to-EX forwarding
+- WB-to-EX forwarding
 - Load-use hazard detection
 - One-cycle pipeline stall
 - Bubble insertion
@@ -756,13 +755,13 @@ Since the available project materials do not contain a verified final simulator 
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/Suraj6363/Design-and-Implementation-of-a-5-Stage-Pipelined-RISC-V-RV32I-Processor.git
 ```
 
 ### 2. Enter the Project Directory
 
 ```bash
-cd <your-repository-folder>
+cd Design-and-Implementation-of-a-5-Stage-Pipelined-RISC-V-RV32I-Processor
 ```
 
 ### 3. Compile the RTL
@@ -830,7 +829,7 @@ The project does not currently claim:
 - Timing closure
 - FPGA deployment
 - ASIC implementation
-- Synthesisable memory macros
+- Synthesizable memory macros
 
 The instruction and data memories are modelled behaviourally within the testbench.
 
@@ -857,7 +856,7 @@ The instruction and data memories are modelled behaviourally within the testbenc
 
 ## 💾 Memory System
 
-- Replace behavioural memories with a synthesisable memory subsystem.
+- Replace behavioural memories with a synthesizable memory subsystem.
 - Add a standard memory-mapped bus interface.
 
 ## ⚡ Advanced Processor Features
